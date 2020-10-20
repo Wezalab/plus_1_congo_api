@@ -16,8 +16,21 @@ connectionString = "mongodb+srv://kmp-admin:admin@kmp-cluster.98jzy.mongodb.net/
 MongoClient.connect(connectionString, { useUnifiedTopology: true})
 .then(client => {
   console.log('Connected to Database')
+  const db = client.db('kmp-admin')
+  const quotesCollection = db.collection('one_plus')
+
+  app.post('/child', (req, res) => {
+    quotesCollection.insertOne(req.body)
+    .then(result => {
+      console.log(result)
+    })
+    .catch(error => console.error(error))
   })
-  .catch(error => console.error(error))
+  
+})
+.catch(error => console.error(error))
+
+
 
 app.post('/quotes', (req, res) => {
   console.log('Hellooooooooooooooooo!')
